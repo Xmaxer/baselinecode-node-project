@@ -9,3 +9,4 @@ Creates an empty NodeJS project with:
 - ESLint
 - Husky pre commit
 - Node 22 (Not configurable atm)
+- Actual template code is maintained and downloaded from https://github.com/Xmaxer/baselinecode-node-project-template
