@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": [
+        "src/*"
+      ]
+    },
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "noUnusedLocals": true,
+    "rootDir": ".",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "useUnknownInCatchVariables": false,
+    "maxNodeModuleJsDepth": 10,
+    "noEmit": true
+  },
+  "include": [
+    "build.mts"
+  ]
+}

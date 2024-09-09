@@ -1,0 +1,52 @@
+{
+  "overwrite": true,
+  "schema": "src/schema/schemaDefs/**/*.ts",
+  "config": {
+    "typesPrefix": "I",
+    "scalars": {
+      "Upload": "FileUpload",
+      "BirthDate": "IBirthDate",
+      "Date": "Date",
+      "UserDisplayName": "string",
+      "UserDescription": "string",
+      "UserTagline": "string",
+      "CommentContent": "string",
+      "EventTitle": "string",
+      "EventDescription": "string",
+      "GameListTitle": "string",
+      "GameListDescription": "string",
+      "NintendoUsername": "string",
+      "PlaystationUsername": "string",
+      "SteamUsername": "string",
+      "TwitchUsername": "string",
+      "XboxUsername": "string",
+      "UserUsername": "string",
+      "DevelopmentFeedbackMessage": "string",
+      "GameReviewContent": "string",
+      "GameReviewRating": "number",
+      "PaginationCursor": "string",
+      "ReportMessage": "string"
+    },
+    "strictScalars": true,
+    "emitLegacyCommonJSImports": false
+  },
+  "generates": {
+    "src/generated/schema.mts": {
+      "plugins": [
+        "typescript",
+        "typescript-resolvers",
+        {
+          "add": {
+            "content": [
+              "import { FileUpload } from 'graphql-upload/processRequest.mjs';",
+              "import { IBirthDate } from '@scalar/resolvers/BirthDateScalar.mjs';"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "hooks": {
+    "afterOneFileWrite": ["prettier --write"]
+  }
+}

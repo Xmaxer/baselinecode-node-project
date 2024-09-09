@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": [
+        "src/*"
+      ]
+    },
+    "esModuleInterop": true,
+    "moduleResolution": "NodeNext",
+    "module": "CommonJS",
+    "noUnusedLocals": true,
+    "rootDir": ".",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "useUnknownInCatchVariables": false,
+    "maxNodeModuleJsDepth": 10,
+    "noEmit": true
+  },
+  "include": [
+    "src"
+  ]
+}
