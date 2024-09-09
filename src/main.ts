@@ -8,15 +8,12 @@ import { ReadableStream } from 'node:stream/web';
 import path from 'path';
 import yauzl from 'yauzl';
 
-const GITHUB_URL =
-  'https://github.com/Xmaxer/baselinecode-node-project-template/archive/refs/heads/main.zip';
-const TEMPLATE_ZIPPED_PATH = 'baselinecode-node-project-template-main/';
+import config from '@src/config.json';
+
+const templateUrl = config.templateUrl;
+const templateZippedPath = config.pathToRemove;
 
 const program = new Command();
-
-program
-  .name('@baselinecode/node-project')
-  .description('CLI to generate a basic node project');
 
 program.requiredOption('-n, --name <string>');
 
@@ -31,14 +28,14 @@ const zipPath = path.join(projectDir, 'template.zip');
 const packageJsonPath = path.join(projectDir, 'package.json');
 
 function getDownloadedFilePath(fileName: string): string {
-  return fileName.replace(TEMPLATE_ZIPPED_PATH, '');
+  return fileName.replace(templateZippedPath, '');
 }
 
 (async () => {
   fs.mkdirSync(projectDir);
 
   const stream = fs.createWriteStream(zipPath);
-  const { body } = await fetch(GITHUB_URL);
+  const { body } = await fetch(templateUrl);
   await finished(Readable.fromWeb(body as ReadableStream).pipe(stream));
 
   const unzipDir = projectDir;

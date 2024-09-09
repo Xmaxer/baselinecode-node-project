@@ -1,6 +1,6 @@
 {
   "name": "@baselinecode/node-project",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Simple TS node project template",
   "keywords": [
     "node",

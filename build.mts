@@ -11,6 +11,7 @@ await esbuild.build({
   format: 'cjs',
   platform: 'node',
   target: 'esnext',
+  tsconfig: './tsconfig.project.json',
 });
 
 fs.copyFileSync('package.json', 'dist/package.json');

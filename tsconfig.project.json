@@ -14,9 +14,7 @@
     "skipLibCheck": true,
     "strict": true,
     "useUnknownInCatchVariables": false,
-    "maxNodeModuleJsDepth": 10,
     "noEmit": true
   },
-  "include": ["src"],
-  "exclude": ["src/template"]
+  "include": ["src"]
 }
