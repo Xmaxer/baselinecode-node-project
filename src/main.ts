@@ -15,7 +15,7 @@ const templateZippedPath = config.pathToRemove;
 
 const program = new Command();
 
-program.requiredOption('-n, --name <string>');
+program.requiredOption('-n, --name <string>', 'The name of the project');
 
 program.parse();
 
