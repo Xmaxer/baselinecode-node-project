@@ -1,6 +1,6 @@
 {
   "name": "@baselinecode/node-project",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "",
   "keywords": [
     "node",
@@ -17,11 +17,12 @@
     "build": "tsx build.mts && cp package.json dist && cp -r src/template dist",
     "lint": "eslint . --max-warnings 0 --fix",
     "lint:ci": "eslint . --max-warnings 0",
+    "prepare": "husky",
     "prettier": "prettier --write .",
     "prettier:ci": "prettier --check .",
     "publish:npm": "cd dist && npm publish",
     "test": "rm -rf test-project && tsx src/main.mts -n test-project",
-    "typescript:check": "tsc --noEmit",
+    "typescript:check": "tsc --project tsconfig.esbuild.json && tsc --project tsconfig.project.json",
     "version-bump:major": "npm version major --commit-hooks false",
     "version-bump:minor": "npm version minor --commit-hooks false",
     "version-bump:patch": "npm version patch --commit-hooks false"

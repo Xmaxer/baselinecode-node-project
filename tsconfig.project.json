@@ -2,12 +2,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@src/*": [
-        "src/*"
-      ]
+      "@src/*": ["src/*"]
     },
     "esModuleInterop": true,
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Node",
     "module": "CommonJS",
     "noUnusedLocals": true,
     "rootDir": ".",
@@ -19,7 +17,6 @@
     "maxNodeModuleJsDepth": 10,
     "noEmit": true
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"],
+  "exclude": ["src/template"]
 }

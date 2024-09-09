@@ -2,9 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@src/*": [
-        "src/*"
-      ]
+      "@src/*": ["src/*"]
     },
     "moduleResolution": "NodeNext",
     "module": "NodeNext",
@@ -18,7 +16,5 @@
     "maxNodeModuleJsDepth": 10,
     "noEmit": true
   },
-  "include": [
-    "build.mts"
-  ]
+  "include": ["build.mts"]
 }

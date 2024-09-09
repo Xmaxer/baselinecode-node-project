@@ -9,6 +9,7 @@
     "build": "rm -rf dist && tsx build.mts",
     "lint": "eslint . --max-warnings 0 --fix",
     "lint:ci": "eslint . --max-warnings 0",
+    "prepare": "husky",
     "prettier": "prettier --write .",
     "prettier:ci": "prettier --check .",
     "typescript:check": "tsc --noEmit"
