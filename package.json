@@ -1,12 +1,15 @@
 {
   "name": "@baselinecode/node-project",
-  "version": "1.0.5",
-  "description": "",
+  "version": "1.0.6",
+  "description": "Simple TS node project template",
   "keywords": [
     "node",
     "template",
     "baselinecode"
   ],
+  "repository": {
+    "url": "https://github.com/Xmaxer/baselinecode-node-project"
+  },
   "license": "ISC",
   "author": "Kevin Jakubauskas",
   "type": "commonjs",
@@ -14,7 +17,7 @@
     "@baselinecode/node-project": "./main.js"
   },
   "scripts": {
-    "build": "tsx build.mts && cp package.json dist && cp -r src/template dist",
+    "build": "tsx build.mts",
     "lint": "eslint . --max-warnings 0 --fix",
     "lint:ci": "eslint . --max-warnings 0",
     "prepare": "husky",
