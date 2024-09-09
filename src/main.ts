@@ -2,7 +2,15 @@
 import { Command } from 'commander';
 import spawn from 'cross-spawn';
 import * as fs from 'node:fs';
+import { Readable } from 'node:stream';
+import { finished } from 'node:stream/promises';
+import { ReadableStream } from 'node:stream/web';
 import path from 'path';
+import yauzl from 'yauzl';
+
+const GITHUB_URL =
+  'https://github.com/Xmaxer/baselinecode-node-project-template/archive/refs/heads/main.zip';
+const TEMPLATE_ZIPPED_PATH = 'baselinecode-node-project-template-main/';
 
 const program = new Command();
 
@@ -19,20 +27,88 @@ const projectName = options.name;
 
 const currentDir = process.cwd();
 const projectDir = path.resolve(currentDir, projectName);
+const zipPath = path.join(projectDir, 'template.zip');
+const packageJsonPath = path.join(projectDir, 'package.json');
 
-const templateDir = path.resolve(__dirname, 'template');
-fs.cpSync(templateDir, projectDir, { recursive: true });
+function getDownloadedFilePath(fileName: string): string {
+  return fileName.replace(TEMPLATE_ZIPPED_PATH, '');
+}
 
-const packageJson = require(path.join(projectDir, 'package.json'));
+(async () => {
+  fs.mkdirSync(projectDir);
 
-const newPackageJson = { ...packageJson, name: projectName };
+  const stream = fs.createWriteStream(zipPath);
+  const { body } = await fetch(GITHUB_URL);
+  await finished(Readable.fromWeb(body as ReadableStream).pipe(stream));
 
-fs.writeFileSync(
-  path.join(projectDir, 'package.json'),
-  JSON.stringify(newPackageJson, null, 2),
-);
+  const unzipDir = projectDir;
 
-spawn.sync('npm', ['install'], { stdio: 'inherit', cwd: projectDir });
-spawn.sync('git', ['init'], { stdio: 'inherit', cwd: projectDir });
+  await new Promise((resolve) => {
+    yauzl.open(
+      zipPath,
+      { lazyEntries: true, decodeStrings: true, autoClose: true },
+      (err, zipfile) => {
+        if (err) {
+          console.log('Zip file failed to open');
+          throw err;
+        }
 
-console.log(`Project created in ${projectDir}`);
+        zipfile.readEntry();
+
+        zipfile.on('end', () => {
+          resolve(null);
+        });
+
+        zipfile.on('entry', function (entry) {
+          if (/\/$/.test(entry.fileName)) {
+            const dir = path.join(
+              unzipDir,
+              getDownloadedFilePath(entry.fileName),
+            );
+            console.log('Creating directory:', dir);
+            fs.mkdirSync(dir, {
+              recursive: true,
+            });
+            zipfile.readEntry();
+          } else {
+            zipfile.openReadStream(entry, function (streamErr, readStream) {
+              if (streamErr) {
+                console.log('Zip file stream error');
+                throw streamErr;
+              }
+              readStream.on('end', function () {
+                zipfile.readEntry();
+              });
+
+              const filePath = path.join(
+                unzipDir,
+                getDownloadedFilePath(entry.fileName),
+              );
+
+              console.log('Creating file:', filePath);
+
+              const writeStream = fs.createWriteStream(filePath);
+
+              readStream.pipe(writeStream);
+            });
+          }
+        });
+      },
+    );
+  });
+
+  fs.rmSync(zipPath);
+
+  const packageJson = require(packageJsonPath);
+
+  const newPackageJson = { ...packageJson, name: projectName };
+
+  fs.writeFileSync(packageJsonPath, JSON.stringify(newPackageJson, null, 2));
+
+  spawn.sync('npm', ['install'], { stdio: 'inherit', cwd: projectDir });
+  spawn.sync('git', ['init'], { stdio: 'inherit', cwd: projectDir });
+
+  console.log(`Project created in ${projectDir}`);
+})().then(() => {
+  process.exit(0);
+});

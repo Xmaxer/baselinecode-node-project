@@ -16,10 +16,3 @@ await esbuild.build({
 fs.copyFileSync('package.json', 'dist/package.json');
 fs.copyFileSync('LICENSE', 'dist/LICENSE');
 fs.copyFileSync('README.md', 'dist/README.md');
-
-fs.cpSync('src/template', 'dist/template', {
-  recursive: true,
-  filter(source: string): boolean {
-    return !source.includes('node_modules');
-  },
-});
