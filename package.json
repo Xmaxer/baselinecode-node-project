@@ -1,6 +1,6 @@
 {
   "name": "@baselinecode/node-project",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Simple TS node project template",
   "keywords": [
     "node",
@@ -10,7 +10,7 @@
   "repository": {
     "url": "https://github.com/Xmaxer/baselinecode-node-project"
   },
-  "license": "ISC",
+  "license": "MIT",
   "author": "Kevin Jakubauskas",
   "type": "commonjs",
   "bin": {
