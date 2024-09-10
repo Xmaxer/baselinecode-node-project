@@ -26,6 +26,7 @@ const currentDir = process.cwd();
 const projectDir = path.resolve(currentDir, projectName);
 const zipPath = path.join(projectDir, 'template.zip');
 const packageJsonPath = path.join(projectDir, 'package.json');
+const envFilePath = path.join(projectDir, '.env');
 
 function getDownloadedFilePath(fileName: string): string {
   return fileName.replace(templateZippedPath, '');
@@ -102,8 +103,19 @@ function getDownloadedFilePath(fileName: string): string {
 
   fs.writeFileSync(packageJsonPath, JSON.stringify(newPackageJson, null, 2));
 
-  spawn.sync('npm', ['install'], { stdio: 'inherit', cwd: projectDir });
+  fs.writeFileSync(
+    envFilePath,
+    '# This will be loaded by dotenv https://www.npmjs.com/package/dotenv',
+  );
+
   spawn.sync('git', ['init'], { stdio: 'inherit', cwd: projectDir });
+  spawn.sync('npm', ['install'], { stdio: 'inherit', cwd: projectDir });
+
+  spawn.sync('git', ['add', '.'], { stdio: 'inherit', cwd: projectDir });
+  spawn.sync('git', ['commit', '-m', '"Initial commit"'], {
+    stdio: 'inherit',
+    cwd: projectDir,
+  });
 
   console.log(`Project created in ${projectDir}`);
 })().then(() => {
