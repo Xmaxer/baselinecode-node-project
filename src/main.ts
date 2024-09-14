@@ -108,15 +108,18 @@ function getDownloadedFilePath(fileName: string): string {
     '# This will be loaded by dotenv https://www.npmjs.com/package/dotenv',
   );
 
-  spawn.sync('git', ['init'], { stdio: 'inherit', cwd: projectDir });
-  spawn.sync('npm', ['install'], { stdio: 'inherit', cwd: projectDir });
+  const runInDirectory = (...commands: Array<string>) => {
+    spawn.sync(commands[0], commands.slice(1), {
+      stdio: 'inherit',
+      cwd: projectDir,
+    });
+  };
 
-  spawn.sync('npm', ['run', 'prettier']);
-  spawn.sync('git', ['add', '.'], { stdio: 'inherit', cwd: projectDir });
-  spawn.sync('git', ['commit', '-m', '"Initial commit"'], {
-    stdio: 'inherit',
-    cwd: projectDir,
-  });
+  runInDirectory('git', 'init');
+  runInDirectory('npm', 'install');
+  runInDirectory('npm', 'run', 'install');
+  runInDirectory('npm', 'add', '.');
+  runInDirectory('npm', 'commit', '-m', '"Initial commit"');
 
   console.log(`Project created in ${projectDir}`);
 })().then(() => {
